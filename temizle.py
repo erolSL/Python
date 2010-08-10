@@ -3,15 +3,20 @@ import sys , os
 
 dosya_yeri = raw_input("dosyanın yeri : ")
 yeni_ad1 = raw_input("düzeltildikten sonraki yeni adresi : ")
+
 if not os.path.isdir(yeni_ad1):
 	print "verilen adres doğru değil."
 	sys.exit()
+
 yeni_ad2 = raw_input("düzeltildikten sonraki yeni adı : ")
+
 hps = []
+
 if yeni_ad1[len(yeni_ad1) - 1] == "/":
 	yeni_ad = yeni_ad1 + yeni_ad2
 else:
 	yeni_ad = yeni_ad1 + "/" + yeni_ad2
+
 
 try:
 	dosya = open(dosya_yeri,"r")
@@ -62,8 +67,9 @@ for i in range(satir_sayisi):
 		say += 1
 	j += k * 4
 	hps.append([j,ara])
-	if max_tab_uzunluk < abs(hps[len(hps) - 1][0] - hps[len(hps) - 2][0]):
+	if (max_tab_uzunluk < hps[len(hps) - 1][0] - hps[len(hps) - 2][0]) & (hps[len(hps) - 1][0] > hps[len(hps) - 2][0]):
 		max_tab_uzunluk = abs(hps[len(hps) - 1][0] - hps[len(hps) - 2][0])
+
 hps.insert(0,[0,"#-*-coding:utf:8-*-\n"])
 yedek.write("#-*-coding:utf:8-*-\n")
 tab_mik = []
@@ -77,7 +83,7 @@ for i in range(1,len(hps)):
 		tab_mik[i] = tab_mik[i - 1] - 1
 	elif hps[i][0] < hps[i - 1][0]:
 		tab_mik[i] = tab_mik[i - 1] + (hps[i][0] - hps[i - 1][0]) / max_tab_uzunluk
-
+print max_tab_uzunluk
 
 for i in range(1,len(hps)):
 	ara2 = ""
@@ -86,7 +92,9 @@ for i in range(1,len(hps)):
 	ara2 = ara2 + hps[i][1]
 	yedek.write(ara2)
 	
+
 os.rename("/home/eroluslu/yedek.txt",yeni_ad)
 print "%s dosyası hazır"%os.path.basename(yeni_ad)
+
 dosya.close()
 yedek.close()
