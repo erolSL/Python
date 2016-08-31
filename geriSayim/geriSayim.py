@@ -1,6 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+"""
+Geri Sayım
+'ayar.txt' dosyasından 'sure' yi alarak geri sayımı başlatır.
+'ayar.txt' dosyasını bulamazsa 'log.txt' dosyasına kayıt atar.
+Geri sayım bittiğinde yeni pencere oluşturur.
+"""
+
 import time
 from datetime import datetime
 from tkinter import *
