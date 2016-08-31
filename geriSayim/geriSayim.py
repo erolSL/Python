@@ -2,99 +2,68 @@
 # -*- coding: utf-8 -*-
 
 import time
-import winsound
 from datetime import datetime
-
-# Versiyon 3
-
-file = open("zaman.txt", 'r')
-sure = file.readline()
-file.close()
-
-# Ses kontrol
-winsound.Beep(3000, 100)
-winsound.Beep(2500, 100)
-winsound.Beep(2000, 100)
-winsound.Beep(1000, 100)
-winsound.Beep(500, 100)
-
-oncekiZaman = datetime.now()
-print(oncekiZaman)
-print(sure)
-time.sleep(int(sure))
-simdiZaman = datetime.now()
-print(simdiZaman)
-farkZaman = simdiZaman - oncekiZaman
-print(farkZaman)
-
-# Ses kontrol
-winsound.Beep(3000, 100)
-winsound.Beep(2500, 100)
-winsound.Beep(2000, 100)
-winsound.Beep(1000, 100)
-winsound.Beep(500, 100)
+from tkinter import *
+from ctypes import *
 
 
+class CalarSaat:
+    __sure = 0
+    __oncekiZaman = 0
+    __simdiZaman = 0
 
-# Versiyon 2
+    def __init__(self):
+        try:
+            file = open("ayar.txt", 'r')
+            sure = file.readline()
+            file.close()
+            self.__sure = int(sure)
+        except FileNotFoundError:
+            try:
+                errFile = open("log.txt", encoding='utf-8', mode='a')
+                errMessage = "ayar.txt bulunamadı. Programdan çıkılıyor.\n"
+                errFile.write(errMessage)
+                errFile.close()
+            except:
+                pass
+            exit()
 
-# import time
-# import winsound
-# from datetime import datetime
+    def calistir(self):
+        self.__oncekiZaman = datetime.now()
+        time.sleep(self.__sure)
+        self.__simdiZaman = datetime.now()
 
-# Ses kontrol
-# winsound.Beep(3000, 100)
-# winsound.Beep(2500, 100)
-# winsound.Beep(2000, 100)
-# winsound.Beep(1000, 100)
-# winsound.Beep(500, 100)
-#
-# oncekiZaman = datetime.now()
-# print(oncekiZaman)
-# time.sleep(60 * 60)
-# simdiZaman = datetime.now()
-# print(simdiZaman)
-# farkZaman = simdiZaman - oncekiZaman
-# print(farkZaman)
-# Ses kontrol
-# winsound.Beep(3000, 100)
-# winsound.Beep(2500, 100)
-# winsound.Beep(2000, 100)
-# winsound.Beep(1000, 100)
-# winsound.Beep(500, 100)
+    def getSure(self):
+        return self.__sure
+
+    def getBaslangicZaman(self):
+        return self.__oncekiZaman
+
+    def getBitisZaman(self):
+        return self.__simdiZaman
 
 
-# Versiyon 1
+screen = windll.user32
+windowW = 500
+windowH = 300
+screenW = int((screen.GetSystemMetrics(0) / 2) - (windowW / 2))
+screenH = int((screen.GetSystemMetrics(1) / 2) - (windowH / 2))
 
-# import time
-# import winsound
-# from datetime import datetime
+str = str(windowW) + "x" + str(windowH) + "+" + str(screenW) + "+" + str(screenH)
 
-# simdiZaman = datetime.now()
-# print(simdiZaman)
-#
-# time.sleep(1)
-#
-# sonraZaman = datetime.today()
-#
-# print(sonraZaman)
-#
-# farkZaman = sonraZaman - simdiZaman
-#
-# print(farkZaman)
-# print(farkZaman.days)
-# print(farkZaman.total_seconds())
-# print(farkZaman.seconds)
-# print(farkZaman.microseconds)
-#
-# if farkZaman.total_seconds() > (1 * 60) :
-#     print("Büyük")
-# else:
-#     print("Küçüktür")
-#
-# while farkZaman.total_seconds() < (1 * 60) :
-#     time.sleep(1)
-#     sonraZaman = datetime.today()
-#     print(sonraZaman)
-#     farkZaman = sonraZaman - simdiZaman
-#     print(farkZaman)
+app = Tk()
+app.title("SPIES")
+app.geometry(str)
+app.wm_attributes("-topmost", 1)
+
+saat = CalarSaat()
+print("Çalışmaya başlanmıştır.")
+saat.calistir()
+print("Çalışma bitmiştir.")
+
+label = Label(app, text="Süre Doldu", height=0, width=100)
+button2 = Button(app, text="Quit", width=20, command=app.destroy)
+label.pack()
+button2.pack(side='bottom', padx=0, pady=0)
+
+app.mainloop()
