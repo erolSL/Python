@@ -1,0 +1,5 @@
+id:1
+dbAdres:../DB/db.txt
+dbUsername:
+dbPass:
+username:erol.uslu@bil.omu.edu.tr
