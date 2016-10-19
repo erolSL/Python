@@ -40,9 +40,11 @@ class dbConnection:
 
         result = cursor.fetchall()
         db.close()
-        self.__userID = result[-1][-1]
 
-
+        if result == ():
+            self.__userID = ""
+        else:
+            self.__userID = result[-1][-1]
 
     def getUserName(self):
         return self.__userName
@@ -61,9 +63,6 @@ class dbConnection:
 
     def getUserID(self):
         return self.__userID
-
-    # def __del__(self):
-    #     pass
 
     def getData(self, id = ""):
         data = []
@@ -129,17 +128,17 @@ class dbConnection:
 
         db.close()
 
-
-
-db = dbConnection()
-
-print("Hostname : ", db.getHostAdres())
-print("dbname : ", db.getDbName())
-print("dbusername : ", db.getDbUserName())
-print("dbpassword : ", db.getPasswd())
-print("username : ", db.getUserName())
-print("UserID : ", db.getUserID())
-
+#
+#
+# db = dbConnection()
+#
+# print("Hostname : ", db.getHostAdres())
+# print("dbname : ", db.getDbName())
+# print("dbusername : ", db.getDbUserName())
+# print("dbpassword : ", db.getPasswd())
+# print("username : ", db.getUserName())
+# print("UserID : ", db.getUserID())
+#
 # db.setData("oda1", "erol")
 # db.addData("oda8", 8)
 
