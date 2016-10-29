@@ -1,0 +1,144 @@
+# Version 0.002
+from pymysql import *
+
+ayarFileAdres = "../ayar.txt"
+
+class dbConnection:
+    __hostName = ""
+    __dbUsername = ""
+    __password = ""
+    __dbName = ""
+    __userName = ""
+    __userID = -1
+
+    def __init__(self):
+        ayarFile = open(ayarFileAdres, "r")
+        lines = ayarFile.readlines()
+        ayarFile.close()
+
+        for index, item in enumerate(lines):
+            item = item.strip()
+            if "dbAdres" in item:
+                self.__hostName = item.split(":")[1]
+            elif "dbUsername" in item:
+                self.__dbUsername = item.split(":")[1]
+            elif "dbPass" in item:
+                self.__password = item.split(":")[1]
+            elif "dbName" in item:
+                self.__dbName = item.split(":")[1]
+            elif "username" in item:
+                self.__userName = item.split(":")[1]
+
+        db = connect(host=self.__hostName, user=self.__dbUsername,
+                             passwd=self.__password, db=self.__dbName)
+
+        sqlQuery = "SELECT userID FROM USERS where username=\"" + self.__userName + "\";"
+
+        cursor = db.cursor()
+        cursor.execute(sqlQuery)
+
+        result = cursor.fetchall()
+        db.close()
+
+        if result == ():
+            self.__userID = ""
+        else:
+            self.__userID = result[-1][-1]
+
+    def getUserName(self):
+        return self.__userName
+
+    def getDbUserName(self):
+        return self.__dbUsername
+
+    def getHostAdres(self):
+        return self.__hostName
+
+    def getPasswd(self):
+        return self.__password
+
+    def getDbName(self):
+        return self.__dbName
+
+    def getUserID(self):
+        return self.__userID
+
+    def getData(self, id = ""):
+        data = []
+        if id == "":
+            db = connect(host=self.__hostName, user=self.__dbUsername,
+                                 passwd=self.__password, db=self.__dbName)
+
+            sqlQuery = "SELECT * FROM ODALAR WHERE userID in (SELECT userID FROM USERS where username=\"" + self.__userName + "\");"
+
+            cursor = db.cursor()
+            cursor.execute(sqlQuery)
+            result = cursor.fetchall()
+            db.close()
+
+            for index, item in enumerate(result):
+                data.append(item[1:3])
+
+        else:
+            db = connect(host=self.__hostName, user=self.__dbUsername,
+                                 passwd=self.__password, db=self.__dbName)
+
+            sqlQuery = "SELECT * FROM ODALAR WHERE userID in (SELECT userID FROM USERS where username=\"" + self.__userName + "\") AND isim like \"" + id + "\";"
+
+            cursor = db.cursor()
+            cursor.execute(sqlQuery)
+            result = cursor.fetchall()
+            db.close()
+
+            data.append(result[-1][1:3])
+
+        return data
+
+    def setData(self, item, value):
+        db = connect(host=self.__hostName, user=self.__dbUsername,
+                             passwd=self.__password, db=self.__dbName)
+        sqlQuery = "UPDATE ODALAR SET deger=\"" + value + "\" WHERE isim LIKE \"" + item + "\" and userID=" + str(self.__userID) + ";"
+        cursor = db.cursor()
+        cursor.execute(sqlQuery)
+        db.close()
+
+    def addData(self, item, value):
+        db = connect(host=self.__hostName, user=self.__dbUsername,
+                             passwd=self.__password, db=self.__dbName)
+
+        item = "\"" + item + "\""
+        value = "\"" + str(value )+ "\""
+        id = "\"" + str(self.__userID) + "\""
+
+        sqlQuery = "INSERT INTO ODALAR(isim, deger, userID) VALUES(" + item + ", " + value + ", " + id + ");"
+
+        cursor = db.cursor()
+        cursor.execute(sqlQuery)
+        db.commit()
+        db.close()
+
+    def delData(self, item):
+        db = connect(host=self.__hostName, user=self.__dbUsername,
+                     passwd=self.__password, db=self.__dbName)
+
+        sqlQuery = "DELETE FROM ODALAR WHERE isim='" + item + "' and userID='" + str(self.__userID) + "';"
+
+        cursor = db.cursor()
+        cursor.execute(sqlQuery)
+        db.commit()
+        db.close()
+
+db = dbConnection()
+# db.delData("oda8")
+# print("Hostname : ", db.getHostAdres())
+# print("dbname : ", db.getDbName())
+# print("dbusername : ", db.getDbUserName())
+# print("dbpassword : ", db.getPasswd())
+# print("username : ", db.getUserName())
+# print("UserID : ", db.getUserID())
+#
+# db.setData("oda1", "erol")
+db.addData("oda8", 8)
+#
+# for item in db.getData():
+#     print(item)
