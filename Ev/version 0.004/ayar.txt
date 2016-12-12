@@ -1,0 +1,5 @@
+hostName:192.168.24.3
+dbUsername:root
+dbPass:1
+dbName:debe
+username:erol.uslu
