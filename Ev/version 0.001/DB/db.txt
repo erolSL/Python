@@ -1,8 +1,0 @@
-id:1;username:erol.uslu@bil.omu.edu.tr;oda1:1;oda2:1
-id:2;username:erol.uslu@bil.omu.edu.tr;oda1:1;oda2:113
-id:3;username:erol.uslu@bil.omu.edu.tr;oda4:a1;oda2:1
-id:4;username:erol.uslu@bil.omu.edu.tr;oda2:33;oda2:1
-id:5;username:erol.uslu@bil.omu.edu.tr;oda2:1;oda1:1
-id:6;username:erol.uslu@bil.omu.edu.tr;oda1:1;oda2:1
-id:7;username:erol.uslu@bil.omu.edu.tr;oda2:1;oda1:1
-id:8;username:erol.uslu@bil.omu.edu.tr;oda1:1;oda2:1

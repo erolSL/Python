@@ -1,5 +1,0 @@
-dbAdres:localhost
-dbUsername:root
-dbPass:1
-dbName:debe
-username:erol.uslu
