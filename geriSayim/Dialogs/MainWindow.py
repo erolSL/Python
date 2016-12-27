@@ -8,11 +8,13 @@ import re
 
 pngAdres = "clock.png"
 title = "Geri Sayım"
-defaultTime = "__:__:__"
+# defaultTime = "__:__:__"
+defaultTime = "00:00:01"
 
 class MainWindow(QWidget):
     __pressBaslat = False
     __timeStr = ""
+    __top_zaman = 0
 
     def __init__(self):
         super().__init__()
@@ -108,6 +110,8 @@ class MainWindow(QWidget):
         self.progressBar.setProperty("value", 0)
         self.progressBar.setTextVisible(False)
         self.progressBar.setObjectName("progressBar")
+        self.progressBar.setRange(0, 100)
+        self.progressBar.setValue(0)
 
         self.show()
 
@@ -126,10 +130,15 @@ class MainWindow(QWidget):
         self.timer.start()
         self.timer.timeout.connect(self.geriSayim)
         self.__timeStr = self.getTime()
+
+        hour, min, sec = self.plainTextEdit.text().split(":")
+        self.__top_zaman = int(hour) * 3600 + int(min) * 60 + int(sec)
+
         self.geriSayim()
 
     def geriSayim(self):
         hour, min, sec = self.__timeStr.split(":")
+        kalan_zaman = int(hour) * 3600 + int(min) * 60 + int(sec)
         if self.__timeStr == "00:00:00":
             self.timer.stop()
             self.label_2.setText(hour)
@@ -139,6 +148,12 @@ class MainWindow(QWidget):
         self.label_2.setText(hour)
         self.label_3.setText(min)
         self.label_4.setText(sec)
+
+        bitenZaman = self.__top_zaman - kalan_zaman
+        oran = int((bitenZaman / self.__top_zaman) * 100)
+        print(oran)
+        self.progressBar.setValue(oran)
+
         sec = str(int(sec) - 1)
         if sec == "-1":
             min = str(int(min) - 1)
