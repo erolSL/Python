@@ -8,8 +8,7 @@ import re
 
 pngAdres = "clock.png"
 title = "Geri Sayım"
-# defaultTime = "__:__:__"
-defaultTime = "00:00:01"
+defaultTime = "__:__:__"
 
 class MainWindow(QWidget):
     __pressBaslat = False
@@ -119,20 +118,24 @@ class MainWindow(QWidget):
         return self.plainTextEdit.text()
 
     def baslat(self):
-        # if self.__pressBaslat:
-        #     self.pushButton.setText("Başlat")
-        #     self.__pressBaslat = False
-        # else:
-        #     self.pushButton.setText("Duraklat")
-        #     self.__pressBaslat = True
-        self.timer = QTimer()
-        self.timer.setInterval(1000)
-        self.timer.start()
-        self.timer.timeout.connect(self.geriSayim)
-        self.__timeStr = self.getTime()
+        if self.__pressBaslat:
+            # Zaman duraklatıldı
+            self.pushButton.setText("Başlat")
+            self.__pressBaslat = False
+            self.timer.stop()
+        else:
+            # Zaman başlatıldı
+            self.pushButton.setText("Duraklat")
+            self.__pressBaslat = True
+            if self.__timeStr == "":
+                self.__timeStr = self.getTime()
+                self.timer = QTimer()
+                self.timer.setInterval(1000)
+                self.timer.timeout.connect(self.geriSayim)
 
-        hour, min, sec = self.plainTextEdit.text().split(":")
-        self.__top_zaman = int(hour) * 3600 + int(min) * 60 + int(sec)
+                hour, min, sec = self.plainTextEdit.text().split(":")
+                self.__top_zaman = int(hour) * 3600 + int(min) * 60 + int(sec)
+            self.timer.start()
 
         self.geriSayim()
 
@@ -145,13 +148,15 @@ class MainWindow(QWidget):
             self.label_3.setText(min)
             self.label_4.setText(sec)
             self.uyari = Uyari()
+            self.pushButton.setText("Başlat")
+            self.__pressBaslat = False
+            self.timer.deleteLater()
         self.label_2.setText(hour)
         self.label_3.setText(min)
         self.label_4.setText(sec)
 
         bitenZaman = self.__top_zaman - kalan_zaman
         oran = int((bitenZaman / self.__top_zaman) * 100)
-        print(oran)
         self.progressBar.setValue(oran)
 
         sec = str(int(sec) - 1)
@@ -170,7 +175,14 @@ class MainWindow(QWidget):
         self.__timeStr = hour + ":" + min + ":" + sec
 
     def sifirla(self):
-        print("Sıfırla")
+        self.pushButton.setText("Başlat")
+        self.__pressBaslat = False
+        self.timer.stop()
+        self.label_2.setText("00")
+        self.label_3.setText("00")
+        self.label_4.setText("00")
+        self.progressBar.setValue(0)
+        self.__timeStr = ""
 
 class LineEdit(QLineEdit):
     __basildi = False
