@@ -21,7 +21,6 @@ class Uyari(QDialog):
         self.pushButton.setGeometry(QRect(160, 200, 101, 21))
         self.pushButton.setObjectName("pushButton")
         self.pushButton.setText("Çıkış")
-        # self.pushButton.clicked.connect(QCoreApplication.instance().quit)
-        self.pushButton.clicked.connect(self.done(0))
+        self.pushButton.clicked.connect(self.close)
 
         self.show()
