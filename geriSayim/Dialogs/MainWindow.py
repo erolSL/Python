@@ -8,8 +8,7 @@ import re
 
 pngAdres = "clock.png"
 title = "Geri Sayım"
-# defaultTime = "__:__:__"
-defaultTime = "00:00:01"
+defaultTime = "__:__:__"
 
 class MainWindow(QWidget):
     __pressBaslat = False
