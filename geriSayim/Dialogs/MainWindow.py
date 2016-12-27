@@ -5,7 +5,6 @@ from PyQt5.QtCore import QRect, Qt, QTimer
 from v7.Dialogs.Uyari import Uyari
 import re
 
-
 pngAdres = "clock.png"
 title = "Geri Sayım"
 defaultTime = "__:__:__"
