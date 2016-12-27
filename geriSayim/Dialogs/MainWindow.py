@@ -143,14 +143,16 @@ class MainWindow(QWidget):
         hour, min, sec = self.__timeStr.split(":")
         kalan_zaman = int(hour) * 3600 + int(min) * 60 + int(sec)
         if self.__timeStr == "00:00:00":
-            self.timer.stop()
-            self.label_2.setText(hour)
-            self.label_3.setText(min)
-            self.label_4.setText(sec)
-            self.uyari = Uyari()
             self.pushButton.setText("Başlat")
             self.__pressBaslat = False
+            self.timer.stop()
+            self.label_2.setText("00")
+            self.label_3.setText("00")
+            self.label_4.setText("00")
+            self.progressBar.setValue(0)
             self.timer.deleteLater()
+            self.__timeStr = ""
+            self.uyari = Uyari()
         self.label_2.setText(hour)
         self.label_3.setText(min)
         self.label_4.setText(sec)
@@ -182,6 +184,7 @@ class MainWindow(QWidget):
         self.label_3.setText("00")
         self.label_4.setText("00")
         self.progressBar.setValue(0)
+        self.timer.deleteLater()
         self.__timeStr = ""
 
 class LineEdit(QLineEdit):
