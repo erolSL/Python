@@ -131,7 +131,6 @@ class MainWindow(QWidget):
             self.pushButton.setText("Duraklat")
             self.__pressBaslat = True
             if self.__timeStr == "":
-                self.timer = QTimer()
                 self.__timeStr = self.getTime()
                 self.timer.setInterval(1000)
                 self.timer.timeout.connect(self.geriSayim)
