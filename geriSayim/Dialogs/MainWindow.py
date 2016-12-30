@@ -19,6 +19,7 @@ class MainWindow(QWidget):
         self.setupUI()
 
     def setupUI(self):
+        self.timer = QTimer()
         self.setGeometry(300, 300, 415, 400)
         self.setWindowTitle(title)
         self.setWindowIcon(QIcon(pngAdres))
@@ -117,6 +118,9 @@ class MainWindow(QWidget):
         return self.plainTextEdit.text()
 
     def baslat(self):
+        if self.getTime() == "__:__:__":
+            QMessageBox.critical(self, "Uyarı", "Lütfen süreyi girin.")
+            return
         if self.__pressBaslat:
             # Zaman duraklatıldı
             self.pushButton.setText("Başlat")
@@ -127,8 +131,8 @@ class MainWindow(QWidget):
             self.pushButton.setText("Duraklat")
             self.__pressBaslat = True
             if self.__timeStr == "":
-                self.__timeStr = self.getTime()
                 self.timer = QTimer()
+                self.__timeStr = self.getTime()
                 self.timer.setInterval(1000)
                 self.timer.timeout.connect(self.geriSayim)
 
@@ -141,50 +145,54 @@ class MainWindow(QWidget):
     def geriSayim(self):
         hour, min, sec = self.__timeStr.split(":")
         kalan_zaman = int(hour) * 3600 + int(min) * 60 + int(sec)
+
         if self.__timeStr == "00:00:00":
             self.pushButton.setText("Başlat")
             self.__pressBaslat = False
             self.timer.stop()
-            self.label_2.setText("00")
-            self.label_3.setText("00")
-            self.label_4.setText("00")
-            self.progressBar.setValue(0)
-            self.timer.deleteLater()
+            # self.label_2.setText("00")
+            # self.label_3.setText("00")
+            # self.label_4.setText("00")
+            # self.progressBar.setValue(0)
             self.__timeStr = ""
             self.uyari = Uyari()
+        else:
+            sec = str(int(sec) - 1)
+            if sec == "-1":
+                min = str(int(min) - 1)
+                sec = "59"
+            if min == "-1":
+                hour = str(int(hour) - 1)
+                min = "59"
+            if len(sec) == 1:
+                sec = "0" + sec
+            if len(min) == 1:
+                min = "0" + min
+            if len(hour) == 1:
+                hour = "0" + hour
+            self.__timeStr = hour + ":" + min + ":" + sec
+
+        bitenZaman = self.__top_zaman - kalan_zaman + 1
+        oran = int((bitenZaman / self.__top_zaman) * 100)
+        self.progressBar.setValue(oran)
+
         self.label_2.setText(hour)
         self.label_3.setText(min)
         self.label_4.setText(sec)
 
-        bitenZaman = self.__top_zaman - kalan_zaman
-        oran = int((bitenZaman / self.__top_zaman) * 100)
-        self.progressBar.setValue(oran)
 
-        sec = str(int(sec) - 1)
-        if sec == "-1":
-            min = str(int(min) - 1)
-            sec = "59"
-        if min == "-1":
-            hour = str(int(hour) - 1)
-            min = "59"
-        if len(sec) == 1:
-            sec = "0" + sec
-        if len(min) == 1:
-            min = "0" + min
-        if len(hour) == 1:
-            hour = "0" + hour
-        self.__timeStr = hour + ":" + min + ":" + sec
 
     def sifirla(self):
-        self.pushButton.setText("Başlat")
-        self.__pressBaslat = False
-        self.timer.stop()
-        self.label_2.setText("00")
-        self.label_3.setText("00")
-        self.label_4.setText("00")
-        self.progressBar.setValue(0)
-        self.timer.deleteLater()
-        self.__timeStr = ""
+        if self.timer:
+            if self.timer.isActive():
+                self.pushButton.setText("Başlat")
+                self.__pressBaslat = False
+                self.timer.stop()
+                self.label_2.setText("00")
+                self.label_3.setText("00")
+                self.label_4.setText("00")
+                self.progressBar.setValue(0)
+                self.__timeStr = ""
 
 class LineEdit(QLineEdit):
     __basildi = False
