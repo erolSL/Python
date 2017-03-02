@@ -9,38 +9,34 @@ class Ui_Form(QtWidgets.QWidget):
         self.setupUi()
 
     def setupUi(self):
-        self.setGeometry(300, 300, 397, 359)
-        self.label = QtWidgets.QLabel(self)
-        self.label.setGeometry(QtCore.QRect(10, 50, 64, 16))
-        self.label.setObjectName("label")
-        self.label2 = QtWidgets.QLabel(self)
-        self.label2.setGeometry(QtCore.QRect(75, 50, 64, 16))
-        self.label2.setObjectName("label2")
-        self.textEdit = QtWidgets.QTextEdit(self)
-        self.textEdit.setGeometry(QtCore.QRect(10, 80, 101, 271))
-        self.textEdit.setObjectName("textEdit")
+        self.setGeometry(300, 300, 700, 470)
         self.pushButton = QtWidgets.QPushButton(self)
-        self.pushButton.setGeometry(QtCore.QRect(310, 20, 75, 23))
+        self.pushButton.setGeometry(QtCore.QRect(250, 10, 75, 23))
         self.pushButton.setObjectName("pushButton")
         self.pushButton_2 = QtWidgets.QPushButton(self)
-        self.pushButton_2.setGeometry(QtCore.QRect(230, 20, 75, 23))
+        self.pushButton_2.setGeometry(QtCore.QRect(170, 10, 75, 23))
         self.pushButton_2.setObjectName("pushButton_2")
         self.pushButton_3 = QtWidgets.QPushButton(self)
-        self.pushButton_3.setGeometry(QtCore.QRect(150, 20, 75, 23))
+        self.pushButton_3.setGeometry(QtCore.QRect(90, 10, 75, 23))
         self.pushButton_3.setObjectName("pushButton_3")
         self.pushButton_4 = QtWidgets.QPushButton(self)
-        self.pushButton_4.setGeometry(QtCore.QRect(70, 20, 75, 23))
+        self.pushButton_4.setGeometry(QtCore.QRect(10, 10, 75, 23))
         self.pushButton_4.setObjectName("pushButton_4")
+        self.lineEdit = QtWidgets.QLineEdit(self)
+        self.lineEdit.setGeometry(QtCore.QRect(100, 50, 113, 20))
+        self.lineEdit.setObjectName("lineEdit")
+        self.label2 = QtWidgets.QLabel(self)
+        self.label2.setGeometry(QtCore.QRect(10, 50, 81, 21))
+        self.label2.setObjectName("label_2")
+
+
 
         self.retranslateUi()
-        QtCore.QMetaObject.connectSlotsByName(self)
-
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate("Form", "Göster"))
-        self.label.setText(_translate("Form", "Makine Adı  : "))
-        self.label2.setText(_translate("Form", ""))
+        self.label2.setText(_translate("Form", "Aranacak Kelime"))
         self.pushButton.setText(_translate("Form", "Kaydet ve Çık"))
         self.pushButton_2.setText(_translate("Form", "Çık"))
         self.pushButton_3.setText(_translate("Form", "Kaydet"))
