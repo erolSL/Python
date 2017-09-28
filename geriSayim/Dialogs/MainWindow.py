@@ -1,15 +1,16 @@
-import sys
 from PyQt5.QtGui import QFont, QIcon
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import QRect, Qt, QTimer
-from v7.Dialogs.Uyari import Uyari
+from Dialogs.Uyari import Uyari
 import re
 
-pngAdres = "clock.png"
+pngAdres = "Icons/clock.png"
 title = "Geri Sayım"
 defaultTime = "__:__:__"
 
+
 class MainWindow(QWidget):
+
     __pressBaslat = False
     __timeStr = ""
     __top_zaman = 0
@@ -20,6 +21,8 @@ class MainWindow(QWidget):
 
     def setupUI(self):
         self.timer = QTimer()
+        self.timer.setInterval(1000)
+        self.timer.timeout.connect(self.geriSayim)
         self.setGeometry(300, 300, 415, 400)
         self.setWindowTitle(title)
         self.setWindowIcon(QIcon(pngAdres))
@@ -118,8 +121,8 @@ class MainWindow(QWidget):
         return self.plainTextEdit.text()
 
     def baslat(self):
-        if self.getTime() == "__:__:__":
-            QMessageBox.critical(self, "Uyarı", "Lütfen süreyi girin.")
+        if self.getTime() == "__:__:__" or self.getTime() == "00:00:00":
+            QMessageBox.critical(self, "Uyarı", "Lütfen süre girin.")
             return
         if self.__pressBaslat:
             # Zaman duraklatıldı
@@ -132,9 +135,6 @@ class MainWindow(QWidget):
             self.__pressBaslat = True
             if self.__timeStr == "":
                 self.__timeStr = self.getTime()
-                self.timer.setInterval(1000)
-                self.timer.timeout.connect(self.geriSayim)
-
                 hour, min, sec = self.plainTextEdit.text().split(":")
                 self.__top_zaman = int(hour) * 3600 + int(min) * 60 + int(sec)
             self.timer.start()
@@ -149,10 +149,6 @@ class MainWindow(QWidget):
             self.pushButton.setText("Başlat")
             self.__pressBaslat = False
             self.timer.stop()
-            # self.label_2.setText("00")
-            # self.label_3.setText("00")
-            # self.label_4.setText("00")
-            # self.progressBar.setValue(0)
             self.__timeStr = ""
             self.uyari = Uyari()
         else:
@@ -179,22 +175,22 @@ class MainWindow(QWidget):
         self.label_3.setText(min)
         self.label_4.setText(sec)
 
-
-
     def sifirla(self):
-        if self.timer:
-            if self.timer.isActive():
-                self.pushButton.setText("Başlat")
-                self.__pressBaslat = False
-                self.timer.stop()
-                self.label_2.setText("00")
-                self.label_3.setText("00")
-                self.label_4.setText("00")
-                self.progressBar.setValue(0)
-                self.__timeStr = ""
+        if self.timer and self.timer.isActive():
+            self.pushButton.setText("Başlat")
+            self.__pressBaslat = False
+            self.timer.stop()
+            self.label_2.setText("00")
+            self.label_3.setText("00")
+            self.label_4.setText("00")
+            self.progressBar.setValue(0)
+            self.__timeStr = ""
+
 
 class LineEdit(QLineEdit):
-    __basildi = False
+
+    _basildi = False
+
     def __init__(self, pencere):
         super().__init__(pencere)
         self.setGeometry(QRect(195, 38, 60, 24))
@@ -204,10 +200,10 @@ class LineEdit(QLineEdit):
         self.setMaxLength(8)
 
     def mousePressEvent(self, event):
-        if not self.__basildi:
+        if not self._basildi:
             if event.button() == Qt.LeftButton:
                 self.setText("")
-                self.__basildi = True
+                self._basildi = True
 
     def duzenle(self):
         text = self.text()

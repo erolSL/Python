@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import *
-from v7.Dialogs.MainWindow import MainWindow
+from Dialogs.MainWindow import MainWindow
 
 def main():
     app = QApplication(sys.argv)
