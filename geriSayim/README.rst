@@ -1,7 +1,16 @@
-Qt5 ile hazırladığım Zamanlayıcı
+Kullanım Şekli
+=================
 
-Kullanabilmek için PyQt5 ve Python3+ gerekmektedir.
+Zamanı girip Başlat'a basmanız yeterli. Geri sayımı durdurmak için
+Duraklat'a basabilirsiniz. Süreyi girerken saat, dakika ve saniye
+olarak giriniz. Sayım devam ederken yeni süre çalıştırmak için 
+Sıfırla'ya basıp tekrar Başlat'a basınız. Geri sayım bittiğinde 
+uyarı mesajı gelecek. Çıkış'a basarak mesajı kapatabilirsiniz.
 
-Kullanmak için geriSayim.pyw'yi çalıştırmak yeterlidir.
+Dikkat! Uyarı mesajı bütün pencerelerin üstünde çıkar. 
 
-Hazırlayan : EROL USLU
+Gereklilikler
+================
+
+* Python3+
+* PyQt5
