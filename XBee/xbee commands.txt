@@ -1,0 +1,8 @@
+One other interesting test is the Node Discovery (ND) command. Using AT Command Mode in the terminal window, enter ATND and wait. Other nodes in your network will be listed showing: 
+ 
+Their MY address 
+Their serial numbers 
+Their noun names if set (NI setting). 
+The RSSI level (signal strength) of the received information from that node (further on the RSSI level is discussed). 
+
+00 00 00 13 A2 00 40 7A E4 0B 39 20 00

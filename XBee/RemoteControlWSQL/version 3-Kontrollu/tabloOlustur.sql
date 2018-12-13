@@ -1,0 +1,9 @@
+CREATE TABLE veriler(
+    ID INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
+    zaman DATETIME,
+    islem VARCHAR(20),
+    sonuc VARCHAR(20),
+    durum VARCHAR (20)
+)
+
+SELECT TOP 1 * FROM veriler ORDER BY ID DESC
